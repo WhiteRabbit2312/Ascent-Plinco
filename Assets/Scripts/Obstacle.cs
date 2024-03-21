@@ -9,7 +9,7 @@ public class Obstacle : MonoBehaviour
     [SerializeField] private GameObject[] _obstaclesThird;
 
     private List<GameObject[]> obstacles = new List<GameObject[]>();
-    private int[] _amount = { 4, 3, 2 };
+    private readonly int _rowAmount = 3;
 
     private void Awake()
     {
@@ -20,9 +20,9 @@ public class Obstacle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < _amount.Length; ++i)
+        for(int i = 0; i < _rowAmount; ++i)
         {
-            GenerateObstacle(obstacles[i], _amount[i]);
+            GenerateObstacle(obstacles[i]);
         }
     }
 
@@ -32,11 +32,9 @@ public class Obstacle : MonoBehaviour
         
     }
 
-    private void GenerateObstacle(GameObject[] obstacle, int amount)
+    private void GenerateObstacle(GameObject[] obstacle)
     {
-        int rand = Random.Range(0, amount);
-
-        Debug.Log("Rand " + rand);
+        int rand = Random.Range(0, obstacle.Length);
 
         for(int i = 0; i < obstacle.Length; ++i)
         {
