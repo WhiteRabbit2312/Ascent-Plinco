@@ -24,7 +24,7 @@ public class BackgroundManager : MonoBehaviour
 
     public void BuyBackgroundButton(int idx)
     {
-        if(_backgroundPrice[idx] < CashManager.Cash)
+        if(_backgroundPrice[idx] < CashManager._cash)
         {
             foreach (var item in _backgrounds)
             {

@@ -6,20 +6,15 @@ using TMPro;
 public class CashManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI cashText;
-    private static int _cash;
-    private int _cashBid;
-    public static int Cash
-    {
-        get { return _cash; }
-        set
-        {
-            _cash = value;
-        }
-    }
+    [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private GameObject buyPanel;
+    public static int _cash;
+    private int _allCash;
+
     // Start is called before the first frame update
     private void Awake()
     {
-        _cash = 1000000;
+        _cash = 1000;
     }
 
     void Start()
@@ -30,12 +25,20 @@ public class CashManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cashText.text = _cash.ToString();
+        coinText.text = _cash.ToString();
     }
 
     public static void ChangeSum(int sum)
     {
         _cash += sum;
-        
+    }
+
+    public void TakeMoney()
+    {
+        buyPanel.SetActive(true);
+        _allCash += _cash;
+        cashText.text = _allCash.ToString();
+        _cash = 0;
+        coinText.text = _cash.ToString();
     }
 }

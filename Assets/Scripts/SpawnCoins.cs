@@ -32,6 +32,15 @@ public class SpawnCoins : MonoBehaviour
         
     }
 
+    public void StartNew()
+    {
+        for (int i = 0; i < _rowAmount; ++i)
+        {
+
+            GenerateCoins(coins[i]);
+        }
+    }
+
     private void GenerateCoins(GameObject[] coins)
     {
         int rand = Random.Range(0, coins.Length);

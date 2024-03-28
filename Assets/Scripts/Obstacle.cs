@@ -32,7 +32,15 @@ public class Obstacle : MonoBehaviour
         
     }
 
-    private void GenerateObstacle(GameObject[] obstacle)
+    public void StartNew()
+    {
+        for (int i = 0; i < _rowAmount; ++i)
+        {
+            GenerateObstacle(obstacles[i]);
+        }
+    }
+
+    public void GenerateObstacle(GameObject[] obstacle)
     {
         int rand = Random.Range(0, obstacle.Length);
 

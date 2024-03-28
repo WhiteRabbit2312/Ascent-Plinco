@@ -8,11 +8,12 @@ public class MusicUIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI[] _musicButtonText;
     private readonly int[] _musicPrice = { 10000, 20000, 30000, 40000, 50000 };
+
     // Start is called before the first frame update
 
     private void Awake()
     {
-        
+       
     }
 
     void Start()
@@ -28,7 +29,7 @@ public class MusicUIManager : MonoBehaviour
 
     public void BuyMusicButton(int idx)
     {
-        if(_musicPrice[idx] < CashManager.Cash)
+        if(_musicPrice[idx] < CashManager._cash)
         {
             _musicButtonText[idx].text = "Choose";
             CashManager.ChangeSum(-_musicPrice[idx]);
@@ -36,4 +37,6 @@ public class MusicUIManager : MonoBehaviour
 
         
     }
+
+    
 }

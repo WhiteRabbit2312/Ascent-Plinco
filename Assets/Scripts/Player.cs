@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _coefficient;
     [SerializeField] private GameObject _sticks;
     [SerializeField] private GameObject _shield;
+    [SerializeField] private GameObject getCashPanel;
+    [SerializeField] private GameObject _thunder;
+    [SerializeField] private TextMeshProUGUI _moreMoneyText;
 
     private bool _finishedGame;
 
@@ -47,12 +51,28 @@ public class Player : MonoBehaviour
         transform.Translate(moveDirection * _speed * Time.deltaTime);
     }
 
+    public void StartNew()
+    {
+        rb.angularDrag = 0;
+        rb.angularVelocity = 0;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        gameObject.transform.position = _startPosition.position;
+        gameObject.transform.rotation = Quaternion.identity;
+        _finishedGame = false;
+        _coefficient.SetActive(false);
+        _gamepad.GetComponent<Animator>().SetBool("Gamepad", false);
+        _sticks.SetActive(true);
+        _thunder.SetActive(true);
+        _bidButton.GetComponent<Animator>().SetBool("Bet", false);
+        _takeButton.GetComponent<Animator>().SetBool("Take", false);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Coin")
         {
             CashManager.ChangeSum(1000);
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
         }
 
         if(collision.tag == "Obstacle")
@@ -67,6 +87,42 @@ public class Player : MonoBehaviour
             gameObject.transform.position = _finishPosition.position;
             _finishedGame = true;
         }
+
+        if(collision.tag == "One")
+        {
+            int a = CashManager._cash;
+            float b = a;
+            b *= 1.5f;
+   
+            CashManager._cash += (int)b;
+            StartCoroutine("GetCashPanel");
+        }
+
+        if (collision.tag == "Zero")
+        {
+            int a = CashManager._cash;
+            float b = a;
+            b *= 0.5f;
+
+            CashManager._cash += (int)b;
+            StartCoroutine("GetCashPanel");
+        }
+
+        if (collision.tag == "Two")
+        {
+            int a = CashManager._cash;
+            float b = a;
+            b *= 2.5f;
+
+            CashManager._cash += (int)b;
+            StartCoroutine("GetCashPanel");
+        }
+    }
+
+    private IEnumerator GetCashPanel()
+    {
+        yield return new WaitForSeconds(1.5f);
+        getCashPanel.SetActive(true);
     }
 
     public void Shield()
@@ -81,7 +137,7 @@ public class Player : MonoBehaviour
         _shield.SetActive(false);
     }
 
-    public void Take()
+    public void Bet()
     {
         rb.bodyType = RigidbodyType2D.Dynamic;
         _coefficient.SetActive(true);
@@ -90,7 +146,7 @@ public class Player : MonoBehaviour
         GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
         _bidButton.GetComponent<Animator>().SetBool("Bet", false);
         _takeButton.GetComponent<Animator>().SetBool("Take", false);
-
+        _thunder.SetActive(false);
         foreach (var item in coins)
         {
             item.gameObject.SetActive(false);

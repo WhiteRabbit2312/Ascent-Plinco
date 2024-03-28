@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject backgroundPanel;
     [SerializeField] private GameObject musicPanel;
     [SerializeField] private Button tapToPlayButton;
+    [SerializeField] private GameObject freeSpinPanel;
 
     [SerializeField] private Animator _topHeaderAnim;
     [SerializeField] private Animator _bottonHeaderAnim;
@@ -52,6 +53,11 @@ public class UIManager : MonoBehaviour
         tapToPlayButton.gameObject.SetActive(true);
     }
 
+    public void SpinWheel()
+    {
+        freeSpinPanel.SetActive(true);
+    }
+
     public void Menu()
     {
         menuPanel.SetActive(true);
@@ -77,11 +83,6 @@ public class UIManager : MonoBehaviour
     public void Music()
     {
         musicPanel.SetActive(true);
-    }
-
-    public void Chest()
-    {
-
     }
 
     public void Back(GameObject closePanel)
